@@ -1,3 +1,4 @@
+using ACRH.Services;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.Versioning;
 
@@ -10,7 +11,8 @@ app.MapGet("/", () => "API Ativa, Acesse /telemetria");
 
 app.MapGet("/telemetria", () =>
 {
-
+    var telemetryService = new TelemetryService();
+    Results.Json(telemetryService.ExibirTelemetria);
 });
 
 app.Run();
