@@ -1,14 +1,14 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace ACRH.Domain.Entities
+namespace ACRH.Entities
 {
     public class TelemetryData
     {
         public float Acelerador { get; set; }
         public float Freio { get; set; }
-        public float RPM { get; set; }
-        public float Marcha { get; set; }
+        public int RPM { get; set; }
+        public int Marcha { get; set; }
         public float Combustivel { get; set; }
-        public float[] Pneus { get; set; } = new float[4];
+        public float[] PneusTMP { get; set; } = new float[4];
     }
 }

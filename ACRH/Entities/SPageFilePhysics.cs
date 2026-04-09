@@ -7,10 +7,12 @@ public unsafe struct SPageFilePhysics
     public float Gas;
     public float Brake;
     public float Fuel;
-    public float Gear;
-    public float Rpms;
+    public int Gear;
+    public int Rpms;
     public float SteerAngle;
     public float SpeedKmh;
+    //aqui ta errado, tem mts campos entre speedkmh e os embaixo,
+    //lembrar de aadicionar ou pular eles depois
     public fixed float WheelAngularSpeed[4];
     public fixed float TyreWear[4];
     public fixed float TyreTemp[4];

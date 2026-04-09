@@ -1,4 +1,4 @@
-﻿using ACRH.Domain.Entities;
+﻿using ACRH.Entities;
 using ACRH.Repositories;
 
 namespace ACRH.Services
@@ -13,12 +13,12 @@ namespace ACRH.Services
                 SPageFilePhysics rawData = acr.LerMemoriaFisica();
                 return new TelemetryData()
                 {
-                    Acelerador = rawData.Gas,
-                    Freio = rawData.Brake,
+                    Acelerador = rawData.Gas * 100,
+                    Freio = rawData.Brake * 100,
                     RPM = rawData.Rpms,
-                    Marcha = rawData.Gear - 1,
+                    Marcha = rawData.Gear-1,
                     Combustivel = rawData.Fuel,
-                    Pneus = [
+                    PneusTMP = [
                     rawData.TyreTemp[0],
                     rawData.TyreTemp[1],
                     rawData.TyreTemp[2],

@@ -1,6 +1,6 @@
 ﻿namespace ACRH.Repositories
 {
-    using ACRH.Domain;
+    using ACRH.Entities;
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
     public class AC_Repository : ITelemetryRepository

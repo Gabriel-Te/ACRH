@@ -1,4 +1,4 @@
-﻿using ACRH.Domain.Entities;
+﻿using ACRH.Entities;
 using ACRH.Repositories;
 
 namespace ACRH.Services

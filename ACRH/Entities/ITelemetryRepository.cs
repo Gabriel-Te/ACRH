@@ -1,4 +1,4 @@
-﻿namespace ACRH.Domain
+﻿namespace ACRH.Entities
 {
     public interface ITelemetryRepository
     {
