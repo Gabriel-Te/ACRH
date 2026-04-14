@@ -13,13 +13,13 @@
                 using var accessor = mmf.CreateViewAccessor();
                 
                 accessor.Read(0, out SPageFilePhysics data);
-
                 return data;
 
             }
-            catch (FileNotFoundException)
+            catch (FileNotFoundException e)
             {
                 // Jogo está fechado
+                Console.WriteLine("Erro de telemetria: " + e.Message);
                 return new SPageFilePhysics();
             }
         }
