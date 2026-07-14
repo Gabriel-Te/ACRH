@@ -2,6 +2,7 @@ using ACRH.Entities;
 using ACRH.Hubs;
 using ACRH.Repositories;
 using ACRH.Services;
+using ACRH.Services.Interfaces;
 using System.Runtime.Versioning;
 
 [assembly: SupportedOSPlatform("windows")]

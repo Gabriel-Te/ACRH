@@ -18,7 +18,6 @@
             }
             catch (FileNotFoundException e)
             {
-                // Jogo está fechado
                 Console.WriteLine("Erro de telemetria: " + e.Message);
                 return new SPageFilePhysics();
             }

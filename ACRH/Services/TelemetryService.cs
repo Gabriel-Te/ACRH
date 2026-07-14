@@ -1,5 +1,6 @@
 ﻿using ACRH.Entities;
 using ACRH.Repositories;
+using ACRH.Services.Interfaces;
 
 namespace ACRH.Services
 {
@@ -12,8 +13,7 @@ namespace ACRH.Services
             _repository = repository;
         }
 
-        // Função auxiliar para converter o ponteiro bruto do C++ (fixed) para Array do C#
-        private float[] CopiarArray(float* ptr, int tamanho)
+        private float[] CopyArray(float* ptr, int tamanho)
         {
             float[] arr = new float[tamanho];
             for (int i = 0; i < tamanho; i++)
@@ -31,10 +31,9 @@ namespace ACRH.Services
 
                 return new TelemetryData()
                 {
-                    Acelerador = (float)Math.Round(rawData.Gas * 100),
-                    Freio = (float)Math.Round(rawData.Brake  * 100),
-                    Marcha = rawData.Gear - 1,
-
+                    Acelerador = rawData.Gas,
+                    Freio = rawData.Brake,
+                    Marcha = rawData.Gear,
                     IdPacote = rawData.PacketId,
                     Combustivel = rawData.Fuel,
                     Rpm = rawData.Rpms,
@@ -74,29 +73,28 @@ namespace ACRH.Services
                     ControladoPelaIA = rawData.IsAIControlled,
                     BalancoFreio = rawData.BrakeBias,
 
-                    // Usando a nossa função auxiliar para ler a memória bruta com segurança!
-                    VelocidadeVetor = CopiarArray(rawData.Velocity, 3),
-                    ForcaG = CopiarArray(rawData.AccG, 3),
-                    DeslizeRoda = CopiarArray(rawData.WheelSlip, 4),
-                    CargaRoda = CopiarArray(rawData.WheelLoad, 4),
-                    PressaoPneus = CopiarArray(rawData.WheelsPressure, 4),
-                    VelocidadeAngularRoda = CopiarArray(rawData.WheelAngularSpeed, 4),
-                    DesgastePneu = CopiarArray(rawData.TyreWear, 4),
-                    NivelSujeiraPneu = CopiarArray(rawData.TyreDirtyLevel, 4),
-                    TempNucleoPneu = CopiarArray(rawData.TyreCoreTemp, 4),
-                    CambagemRad = CopiarArray(rawData.CamberRAD, 4),
-                    CursoSuspensao = CopiarArray(rawData.SuspensionTravel, 4),
-                    DanoCarro = CopiarArray(rawData.CarDamage, 5),
-                    AlturaSolo = CopiarArray(rawData.RideHeight, 2),
-                    VelocidadeAngularLocal = CopiarArray(rawData.LocalAngularVel, 3),
-                    TempFreio = CopiarArray(rawData.BrakeTemp, 4),
-                    TempPneuInterna = CopiarArray(rawData.TyreTempI, 4),
-                    TempPneuMeio = CopiarArray(rawData.TyreTempM, 4),
-                    TempPneuExterna = CopiarArray(rawData.TyreTempO, 4),
-                    PontoContatoPneu = CopiarArray(rawData.TyreContactPoint, 4),
-                    NormalContatoPneu = CopiarArray(rawData.TyreContactNormal, 4),
-                    DirecaoContatoPneu = CopiarArray(rawData.TyreContactHeading, 4),
-                    VelocidadeLocal = CopiarArray(rawData.LocalVelocity, 3)
+                    VelocidadeVetor = CopyArray(rawData.Velocity, 3),
+                    ForcaG = CopyArray(rawData.AccG, 3),
+                    DeslizeRoda = CopyArray(rawData.WheelSlip, 4),
+                    CargaRoda = CopyArray(rawData.WheelLoad, 4),
+                    PressaoPneus = CopyArray(rawData.WheelsPressure, 4),
+                    VelocidadeAngularRoda = CopyArray(rawData.WheelAngularSpeed, 4),
+                    DesgastePneu = CopyArray(rawData.TyreWear, 4),
+                    NivelSujeiraPneu = CopyArray(rawData.TyreDirtyLevel, 4),
+                    TempNucleoPneu = CopyArray(rawData.TyreCoreTemp, 4),
+                    CambagemRad = CopyArray(rawData.CamberRAD, 4),
+                    CursoSuspensao = CopyArray(rawData.SuspensionTravel, 4),
+                    DanoCarro = CopyArray(rawData.CarDamage, 5),
+                    AlturaSolo = CopyArray(rawData.RideHeight, 2),
+                    VelocidadeAngularLocal = CopyArray(rawData.LocalAngularVel, 3),
+                    TempFreio = CopyArray(rawData.BrakeTemp, 4),
+                    TempPneuInterna = CopyArray(rawData.TyreTempI, 4),
+                    TempPneuMeio = CopyArray(rawData.TyreTempM, 4),
+                    TempPneuExterna = CopyArray(rawData.TyreTempO, 4),
+                    PontoContatoPneu = CopyArray(rawData.TyreContactPoint, 4),
+                    NormalContatoPneu = CopyArray(rawData.TyreContactNormal, 4),
+                    DirecaoContatoPneu = CopyArray(rawData.TyreContactHeading, 4),
+                    VelocidadeLocal = CopyArray(rawData.LocalVelocity, 3)
                 };
             }
             catch (Exception e)

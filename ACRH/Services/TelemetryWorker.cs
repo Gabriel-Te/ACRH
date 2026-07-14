@@ -1,5 +1,5 @@
 ﻿using ACRH.Hubs;
-using ACRH.Services;
+using ACRH.Services.Interfaces;
 using Microsoft.AspNetCore.SignalR;
 
 public class TelemetryWorker : BackgroundService
@@ -24,7 +24,7 @@ public class TelemetryWorker : BackgroundService
 
                 await _hub.Clients.All.SendAsync("ReceiveTelemetry", data, stoppingToken);
             }
-            await Task.Delay(16, stoppingToken); // 60 FPS
+            await Task.Delay(16, stoppingToken);
         }
     }
 }
