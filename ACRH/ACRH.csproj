@@ -11,5 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entities\helpers\" />
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 
 </Project>

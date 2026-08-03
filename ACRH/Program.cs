@@ -1,8 +1,6 @@
 using ACRH.Entities;
 using ACRH.Hubs;
 using ACRH.Repositories;
-using ACRH.Services;
-using ACRH.Services.Interfaces;
 using System.Runtime.Versioning;
 
 [assembly: SupportedOSPlatform("windows")]
@@ -11,7 +9,6 @@ using System.Runtime.Versioning;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSingleton<ITelemetryRepository, AC_Repository>();
-builder.Services.AddScoped<ITelemetryService, TelemetryService>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<TelemetryWorker>();
 

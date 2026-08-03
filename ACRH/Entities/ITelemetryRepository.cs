@@ -1,7 +1,8 @@
-﻿namespace ACRH.Entities
+﻿using ACRH.Entities;
+
+public unsafe interface ITelemetryRepository
 {
-    public interface ITelemetryRepository
-    {
-        SPageFilePhysics LerMemoriaFisica();
-    }
+    SPageFileStatic* GetStatic();
+    SPageFilePhysics* GetPhysics();
+    SPageFileGraphic* GetGraphic();
 }
