@@ -4,6 +4,7 @@ namespace ACRH.DTOs
 {
     public static class TelemetryMapper
     {
+
         public static unsafe void UpdatePhysics(this SPageFilePhysics raw, PhysicsData globalDto)
         {
             // === Dados Básicos ===
@@ -82,22 +83,24 @@ namespace ACRH.DTOs
             for (int i = 0; i < length; i++)
             {
                 destination[i] = source[i];
+                
             }
         }
+
 
         public static unsafe void UpdateStatic(this SPageFileStatic raw, StaticData globalDto)
         {
             // === Informações Básicas e Jogador (Strings) ===
             // Nota: O C# precisa alocar memória para criar strings a partir de ponteiros de char.
-            globalDto.VersaoMemoriaCompartilhada = new string((char*)raw.SmVersion);
-            globalDto.VersaoAssettoCorsa = new string((char*)raw.AcVersion);
-            globalDto.ModeloCarro = new string((char*)raw.CarModel);
-            globalDto.Pista = new string((char*)raw.Track);
-            globalDto.NomeJogador = new string((char*)raw.PlayerName);
-            globalDto.SobrenomeJogador = new string((char*)raw.PlayerSurname);
-            globalDto.ApelidoJogador = new string((char*)raw.PlayerNick);
-            globalDto.ConfiguracaoPista = new string((char*)raw.TrackConfiguration);
-            globalDto.SkinCarro = new string((char*)raw.CarSkin);
+            CopyChars(raw.SmVersion, globalDto.VersaoMemoriaCompartilhada, 15);
+            CopyChars(raw.AcVersion, globalDto.VersaoAssettoCorsa, 15);
+            CopyChars(raw.CarModel, globalDto.ModeloCarro, 33);
+            CopyChars(raw.Track, globalDto.Pista, 33);
+            CopyChars(raw.PlayerName, globalDto.NomeJogador, 33);
+            CopyChars(raw.PlayerSurname, globalDto.SobrenomeJogador, 33);
+            CopyChars(raw.PlayerNick, globalDto.ApelidoJogador, 33);
+            CopyChars(raw.TrackConfiguration, globalDto.ConfiguracaoPista, 33);
+            CopyChars(raw.CarSkin, globalDto.SkinCarro, 33);
 
             // === Inteiros e Floats ===
             globalDto.NumeroSessoes = raw.NumberOfSessions;

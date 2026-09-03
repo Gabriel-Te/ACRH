@@ -3,15 +3,27 @@
     public class StaticData
     {
         // === Informações Básicas e Jogador ===
-        public string VersaoMemoriaCompartilhada { get; set; }
-        public string VersaoAssettoCorsa { get; set; }
+        public char[] VersaoMemoriaCompartilhada { get; set; } = new char[15];
+
+        public char[] VersaoAssettoCorsa { get; set; } = new char[15];
+
+        public char[] ModeloCarro { get; set; } = new char[33];
+
+        public char[] Pista { get; set; } = new char[33];
+
+
+        public char[] NomeJogador { get; set; } = new char[33];
+        public int NomeJogadorLen { get; set; }
+
+        public char[] SobrenomeJogador { get; set; } = new char[33];
+        public int SobrenomeJogadorLen { get; set; }
+
+        public char[] ApelidoJogador { get; set; } = new char[33];
+        public int ApelidoJogadorLen { get; set; }
+
         public int NumeroSessoes { get; set; }
         public int NumeroCarros { get; set; }
-        public string ModeloCarro { get; set; }
-        public string Pista { get; set; }
-        public string NomeJogador { get; set; }
-        public string SobrenomeJogador { get; set; }
-        public string ApelidoJogador { get; set; }
+
         public int QuantidadeSetores { get; set; }
 
         // === Especificações e Limites do Veículo ===
@@ -46,12 +58,21 @@
 
         // === Pista e Janela de Corrida ===
         public float ComprimentoPista { get; set; }
-        public string ConfiguracaoPista { get; set; }
+        public char[] ConfiguracaoPista { get; set; } = new char[33];
+        public int ConfiguracaoPistaLen { get; set; }
         public int CorridaPorTempo { get; set; }
         public int PossuiVoltaExtra { get; set; }
-        public string SkinCarro { get; set; }
+        public char[] SkinCarro { get; set; } = new char[33];
+        public int SkinCarroLen { get; set; }
         public int PosicoesGridInvertido { get; set; }
         public int InicioJanelaPit { get; set; }
         public int FimJanelaPit { get; set; }
+
+        public static string ToManagedString(char[] buffer, int length)
+        {
+            if (buffer == null) return string.Empty;
+            if (length <= 0) return string.Empty;
+            return new string(buffer, 0, length);
+        }
     }
 }

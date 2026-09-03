@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Console de Telemetria</h1>
+        <pre id="staticlog" style="background: #222; color: rgb(68, 27, 253); padding: 20px;"></pre>
+    <pre id="log" style="background: #222; color: #0f0; padding: 20px;"></pre>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("http://localhost:5002/telemetryHub")
+            .build();
+
+
+        connection.on("ReceiveTelemetry", (data) => {
+            document.getElementById("log").innerText = JSON.stringify(data, null, 2);
+        });
+        
+                    connection.on("ReceiveStatic", (data) => {
+            document.getElementById("staticlog").innerText = JSON.stringify(data, null, 2);
+        });
+
+
+        connection.start().then(() => console.log("Conectado!"));
+
+        // await connection.invoke("RequestStaticData");
+    </script>
+</body>
+</html>

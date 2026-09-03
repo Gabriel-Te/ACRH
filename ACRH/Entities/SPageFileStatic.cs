@@ -6,15 +6,15 @@ namespace ACRH.Entities
     public unsafe struct SPageFileStatic
     {
         // --- Imagem 1: Configurações Básicas e Sessão ---
-        public fixed char SmVersion[15 * 2]; // wchar_t smVersion[15]
-        public fixed char AcVersion[15 * 2]; // wchar_t acVersion[15]
+        public fixed char SmVersion[15]; // wchar_t smVersion[15]
+        public fixed char AcVersion[15]; // wchar_t acVersion[15]
         public int NumberOfSessions;
         public int NumCars;
-        public fixed char CarModel[33 * 2];   // wchar_t carModel[33]
-        public fixed char Track[33 * 2];      // wchar_t track[33]
-        public fixed char PlayerName[33 * 2]; // wchar_t playerName[33]
-        public fixed char PlayerSurname[33 * 2]; // wchar_t playerSurname[33]
-        public fixed char PlayerNick[33 * 2];    // wchar_t playerNick[33]
+        public fixed char CarModel[33];   // wchar_t carModel[33]
+        public fixed char Track[33];      // wchar_t track[33]
+        public fixed char PlayerName[33]; // wchar_t playerName[33]
+        public fixed char PlayerSurname[33]; // wchar_t playerSurname[33]
+        public fixed char PlayerNick[33];    // wchar_t playerNick[33]
         public int SectorCount;
 
         // --- Dados de Performance Estimados do Carro ---
@@ -52,11 +52,11 @@ namespace ACRH.Entities
 
         // --- Dados da Pista e Corrida ---
         public float TrackSplineLength;
-        public fixed char TrackConfiguration[33 * 2]; // wchar_t trackConfiguration[33]
+        public fixed char TrackConfiguration[33]; // wchar_t trackConfiguration[33]
         public float ErsMaxJ;
         public int IsTimedRace;
         public int HasExtraLap;
-        public fixed char CarSkin[33 * 2]; // wchar_t carSkin[33]
+        public fixed char CarSkin[33]; // wchar_t carSkin[33]
         public int ReversedGridPositions;
         public int PitWindowStart;
         public int PitWindowEnd;

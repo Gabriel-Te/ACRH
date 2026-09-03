@@ -17,51 +17,101 @@ public class TelemetryWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // 1. Inicialize seus DTOs (Managed Memory) FORA do loop
         var staticData = new StaticData();
         var physicsData = new PhysicsData();
         var graphicData = new GraphicData();
 
-        // 2. Loop principal
+        bool staticIsfind = false;
+
         while (!stoppingToken.IsCancellationRequested)
         {
-            // --- BLOCO UNSAFE (Leitura Rápida) ---
             unsafe
             {
                 var rawStatic = _repository.GetStatic();
                 var rawPhysics = _repository.GetPhysics();
                 var rawGraphic = _repository.GetGraphic();
 
-
-                // Verifica se os ponteiros são válidos (O jogo deve estar aberto)
                 if (rawStatic != null && rawPhysics != null && rawGraphic != null)
                 {
-                    // Mapeia para objetos "Managed" (C# normal)
                     TelemetryMapper.UpdateStatic(*rawStatic, staticData);
                     TelemetryMapper.UpdatePhysics(*rawPhysics, physicsData);
                     TelemetryMapper.UpdateGraphic(*rawGraphic, graphicData);
-                    var splitString = new string(graphicData.BufferSplit).TrimEnd('\0');
-
-                    // Isso vai imprimir no seu terminal de execução do .NET
-                    Console.WriteLine($"[DEBUG] Split lido: '{splitString}' | Tamanho: {splitString.Length}");
                 }
 
             }
-            
-            // --- O BLOCO UNSAFE TERMINA AQUI ---
-             
+            // Enviar Static apenas uma vez (ou quando detectar mudança)
 
-
-            // 3. BLOCO SAFE (Envio de rede)
-            // Agora que os DTOs estão populados, fazemos o await com segurança.
-            await _hub.Clients.All.SendAsync("ReceiveTelemetry", new
+            if (staticIsfind == false)
             {
-                Physics = physicsData,
-                Graphic = graphicData,
+                staticIsfind = true;
+            }
+
+            // Sempre guarda/atualiza o cache estático no Hub para novos clientes pegarem via invoke
+            GetTelemetryHub.UpdateStaticCache(staticData);
+
+ 
+            await _hub.Clients.All.SendAsync("ReceiveStatic", new
+            {
                 Static = staticData
             }, stoppingToken);
 
-            // Controle de FPS
+
+            // Converter apenas os campos textuais do Graphic que vamos expor
+            static string BufferToString(char[] buf)
+            {
+                if (buf == null) return string.Empty;
+                int len = Array.IndexOf(buf, '\0');
+                if (len < 0) len = buf.Length;
+                return new string(buf, 0, len);
+            }
+
+            static char[] ResizedValues(char[] buf)
+            {
+                if (buf == null) return new char[1];
+                int len = Array.IndexOf(buf, '\0');
+                if (len < 0) len = buf.Length;
+                var result = new char[len];
+                Array.Copy(buf, result, len);
+                return result;
+            }
+
+            var value = new
+            {
+                graphicData.IdPacote,
+                graphicData.Status,
+                graphicData.TipoSessao,
+
+                graphicData.BufferCurrentTime,
+                graphicData.BufferLastTime,
+                graphicData.BufferBestTime,
+                graphicData.BufferSplit,
+                graphicData.CompletedLaps,
+                graphicData.Position,
+                graphicData.ICurrentTime,
+                graphicData.ILastTime,
+                graphicData.IBestTime,
+                graphicData.SessionTimeLeft,
+                graphicData.DistanceTraveled,
+                graphicData.BufferTyreCompound,
+                graphicData.CarCoordinates,
+                graphicData.PenaltyTime,
+                graphicData.Flag,
+                graphicData.IdealLineOn,
+                graphicData.IsInPitLane,
+                graphicData.SurfaceGrip,
+                graphicData.MandatoryPitDone,
+                graphicData.WindSpeed,
+                graphicData.WindDirection
+            };
+            var graphicPayload = value;
+
+            // Envie telemetria rápida (Physics + Graphic strings)
+            await _hub.Clients.All.SendAsync("ReceiveTelemetry", new
+            {
+                Physics = physicsData,
+                Graphic = graphicPayload,
+            }, stoppingToken);
+
             await Task.Delay(16, stoppingToken);
         }
     }
